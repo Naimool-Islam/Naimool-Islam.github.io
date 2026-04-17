@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Md. Naimool Islam — IPE Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --ink: #1A1714;
+    --rust: #B85C38;
+    --gold: #C8973A;
+    --warm-gray: #8C8278;
+    --light-gray: #E8E2D8;
+    --paper: #FAF7F2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.4rem 4rem;
+    background: rgba(245, 240, 232, 0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--light-gray);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--warm-gray);
+    text-decoration: none;
+    transition: color 0.25s;
+  }
+
+  .nav-links a:hover { color: var(--rust); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 4rem 5rem 5rem;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 5vw, 5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .hero-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--warm-gray);
+    margin-bottom: 2rem;
+    letter-spacing: 0.04em;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+
+  .hero-summary {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: #4A433D;
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 1s forwards;
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 0.8rem 2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.25s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--rust); transform: translateY(-2px); }
+
+  .btn-secondary {
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    padding: 0.8rem 2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.25s, color 0.25s, transform 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--rust); color: var(--rust); transform: translateY(-2px); }
+
+  /* ── HERO RIGHT (PHOTO) ── */
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+    opacity: 0;
+    animation: fadeIn 1.2s ease 0.3s forwards;
+  }
+
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(184,92,56,0.35) 0%, transparent 60%);
+    z-index: 1;
+  }
+
+  .hero-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: grayscale(20%) contrast(1.05);
+    opacity: 0.88;
+  }
+
+  .hero-stat-bar {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 2rem;
+    right: 2rem;
+    z-index: 2;
+    display: flex;
+    gap: 2rem;
+    background: rgba(245,240,232,0.12);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(245,240,232,0.2);
+    padding: 1.2rem 1.8rem;
+  }
+
+  .stat-item { text-align: center; flex: 1; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--cream);
+    display: block;
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.65);
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 6rem 5rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--rust);
+    letter-spacing: 0.15em;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--light-gray);
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--paper);
+    border-top: 1px solid var(--light-gray);
+    border-bottom: 1px solid var(--light-gray);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #4A433D;
+    margin-bottom: 1.2rem;
+  }
+
+  .contact-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .contact-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.9rem;
+    color: #4A433D;
+  }
+
+  .contact-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--ink);
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .contact-list a { color: var(--rust); text-decoration: none; }
+  .contact-list a:hover { text-decoration: underline; }
+
+  /* ── EDUCATION ── */
+  .edu-card {
+    background: var(--paper);
+    border: 1px solid var(--light-gray);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+  }
+
+  .edu-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--rust);
+  }
+
+  .edu-card:hover {
+    box-shadow: 0 8px 32px rgba(26,23,20,0.1);
+  }
+
+  .edu-degree {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+
+  .edu-school {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--rust);
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+  }
+
+  .edu-meta {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .edu-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--warm-gray);
+  }
+
+  .cgpa-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: white;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    padding: 0.25rem 0.75rem;
+    margin-top: 1rem;
+  }
+
+  /* ── AWARDS ── */
+  .awards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .award-item {
+    padding: 2rem;
+    background: var(--paper);
+    border: 1px solid var(--light-gray);
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    transition: transform 0.25s;
+  }
+
+  .award-item:hover { transform: translateY(-4px); }
+
+  .award-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .award-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+
+  .award-desc {
+    font-size: 0.85rem;
+    color: var(--warm-gray);
+    line-height: 1.5;
+  }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--paper); border-top: 1px solid var(--light-gray); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
+
+  .skill-group h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1rem;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .skill-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.35rem 0.9rem;
+    border: 1.5px solid var(--light-gray);
+    color: var(--ink);
+    background: var(--cream);
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .skill-tag:hover {
+    border-color: var(--rust);
+    background: var(--paper);
+  }
+
+  /* ── PROJECTS ── */
+  .projects-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .project-card {
+    padding: 2.5rem;
+    background: var(--paper);
+    border: 1px solid var(--light-gray);
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+  }
+
+  .project-card:hover { box-shadow: 0 12px 40px rgba(26,23,20,0.1); }
+
+  .project-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--light-gray);
+    position: absolute;
+    top: -0.5rem;
+    right: 1rem;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .project-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+
+  .project-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.8rem;
+  }
+
+  .project-desc {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: #4A433D;
+  }
+
+  /* ── EXPERIENCE ── */
+  .experience-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-left: 2px solid var(--light-gray);
+    margin-left: 1rem;
+    padding-left: 2.5rem;
+  }
+
+  .exp-item {
+    position: relative;
+    padding-bottom: 3rem;
+  }
+
+  .exp-item::before {
+    content: '';
+    position: absolute;
+    left: -2.6rem;
+    top: 0.35rem;
+    width: 10px;
+    height: 10px;
+    background: var(--rust);
+    border-radius: 50%;
+  }
+
+  .exp-role {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+  }
+
+  .exp-company {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--rust);
+    letter-spacing: 0.06em;
+    margin-bottom: 0.3rem;
+  }
+
+  .exp-duration {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--warm-gray);
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.1em;
+  }
+
+  .exp-desc {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: #4A433D;
+    max-width: 620px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 3rem 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  .footer-tagline {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--warm-gray);
+    margin-top: 0.3rem;
+  }
+
+  .footer-contact a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: rgba(245,240,232,0.7);
+    text-decoration: none;
+    display: block;
+    text-align: right;
+    margin-bottom: 0.4rem;
+    transition: color 0.2s;
+  }
+
+  .footer-contact a:hover { color: var(--rust); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { gap: 1.5rem; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 8rem 2rem 3rem; }
+    .hero-right { height: 60vw; }
+    section { padding: 4rem 2rem; }
+    .about-grid, .skills-grid, .awards-grid, .projects-list { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+    .footer-contact a { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Naimool Islam</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Industrial & Production Engineer</p>
+    <h1 class="hero-name">Md. <em>Naimool</em><br>Islam</h1>
+    <p class="hero-title">BUET · IPE · Class of 2026</p>
+    <p class="hero-summary">
+      4th-year undergraduate specialising in Operations Research, 
+      Supply Chain Management and Operations Management. 
+      CGPA 3.85/4.00 — Dean's List Awardee.
+    </p>
+    <div class="hero-cta">
+      <a href="mailto:naimool.islam146@gmail.com" class="btn-primary">Get in Touch</a>
+      <a href="https://www.linkedin.com/in/md-naimool-islam-b7933b396" target="_blank" class="btn-secondary">LinkedIn</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+     <img src="mydp.jpg" class="hero-photo" alt="My display picture">
+    <div class="hero-stat-bar">
+      <div class="stat-item">
+        <span class="stat-num">3.85</span>
+        <span class="stat-label">CGPA / 4.00</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">7+</span>
+        <span class="stat-label">Semesters</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">2×</span>
+        <span class="stat-label">Dean's List</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title">About</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>
+        I am a final-year Industrial and Production Engineering student at Bangladesh University of Engineering and Technology (BUET), one of Bangladesh's most prestigious technical universities.
+      </p>
+      <p>
+        My academic interests lie at the intersection of Operations Research, Supply Chain optimisation, and Production Systems. I am eager to bridge rigorous engineering theory with practical industrial challenges.
+      </p>
+      <p>
+        Outside the classroom, I have gained hands-on exposure through industrial attachments in manufacturing and energy distribution sectors, developing a grounded perspective on real-world operations.
+      </p>
+    </div>
+    <div class="reveal">
+      <ul class="contact-list">
+        <li>
+          <span class="contact-icon">✉</span>
+          <a href="mailto:naimool.islam146@gmail.com">naimool.islam146@gmail.com</a>
+        </li>
+        <li>
+          <span class="contact-icon">☎</span>
+          +880 1731 602 972
+        </li>
+        <li>
+          <span class="contact-icon">📍</span>
+          191/3 Malibagh Bazar Road, Dhaka
+        </li>
+        <li>
+          <span class="contact-icon">in</span>
+          <a href="https://www.linkedin.com/in/md-naimool-islam-b7933b396" target="_blank">linkedin.com/in/md-naimool-islam</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Education</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="edu-card reveal">
+    <div class="edu-degree">B.Sc. in Industrial and Production Engineering</div>
+    <div class="edu-school">Bangladesh University of Engineering and Technology (BUET)</div>
+    <div class="edu-meta">
+      <span class="edu-tag">📅 Expected Graduation: May 2026</span>
+      <span class="edu-tag">🏛 Dhaka, Bangladesh</span>
+    </div>
+    <div class="cgpa-badge">CGPA 3.85 / 4.00</div>
+  </div>
+
+  <br>
+
+  <div class="section-header reveal" style="margin-top: 2.5rem;">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Honors & Awards</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="awards-grid">
+    <div class="award-item reveal">
+      <span class="award-icon">🏆</span>
+      <div>
+        <div class="award-title">Dean's List Award</div>
+        <div class="award-desc">Recognised for outstanding academic performance in 2022 and 2023.</div>
+      </div>
+    </div>
+    <div class="award-item reveal">
+      <span class="award-icon">⭐</span>
+      <div>
+        <div class="award-title">University Merit List</div>
+        <div class="award-desc">Consistently ranked on the merit list across all previous semesters.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header reveal">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Skills</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-group reveal">
+      <h4>Programming Languages</h4>
+      <div class="skill-tags">
+        <span class="skill-tag">C</span>
+        <span class="skill-tag">Python</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <h4>Modelling & CAD</h4>
+      <div class="skill-tags">
+        <span class="skill-tag">AutoCAD</span>
+        <span class="skill-tag">SolidWorks</span>
+        <span class="skill-tag">CATIA</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <h4>Analysis & Simulation</h4>
+      <div class="skill-tags">
+        <span class="skill-tag">MATLAB</span>
+        <span class="skill-tag">ANSYS</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <h4>Productivity Tools</h4>
+      <div class="skill-tags">
+        <span class="skill-tag">MS Word</span>
+        <span class="skill-tag">Excel</span>
+        <span class="skill-tag">PowerPoint</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Academic Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-list">
+    <div class="project-card reveal">
+      <div class="project-num">01</div>
+      <div class="project-type">SolidWorks Modelling</div>
+      <div class="project-title">Fortnite FNT0121 Cloudstrike Glider Drone</div>
+      <div class="project-desc">
+        Detailed 3D CAD model of the Fortnite Cloudstrike Glider Drone, demonstrating proficiency in surface modelling, assembly design, and visual rendering within SolidWorks.
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-num">02</div>
+      <div class="project-type">Product Design & Development</div>
+      <div class="project-title">Powerstrike Automated Hammering Machine</div>
+      <div class="project-desc">
+        Conceptualised and designed an automated hammering mechanism, covering the full product development cycle from ideation and prototyping through to manufacturing feasibility analysis.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" style="background: var(--paper); border-top: 1px solid var(--light-gray);">
+  <div class="section-header reveal">
+    <span class="section-num">06</span>
+    <h2 class="section-title">Experience</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="experience-timeline">
+    <div class="exp-item reveal">
+      <div class="exp-role">Industrial Attachment Trainee</div>
+      <div class="exp-company">Elite Hitech Industries Ltd — Cumilla, Bangladesh</div>
+      <div class="exp-duration">3 WEEKS</div>
+      <div class="exp-desc">
+        Gained practical exposure to AC manufacturing processes, inventory planning, and supply chain operations. Observed production floor workflows and engaged with professionals to understand real-world industrial systems.
+      </div>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-role">Industrial Visit</div>
+      <div class="exp-company">BM Energy Ltd — Kaliganj, Gazipur, Bangladesh</div>
+      <div class="exp-duration">1 DAY</div>
+      <div class="exp-desc">
+        Observed LPG distribution operations encompassing river transport, bulk storage, and cylinder filling for nationwide supply chains — providing insight into energy logistics and distribution network management.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-name">Md. Naimool Islam</div>
+    <div class="footer-tagline">Industrial & Production Engineer · BUET · 2026</div>
+  </div>
+  <div class="footer-contact">
+    <a href="mailto:naimool.islam146@gmail.com">naimool.islam146@gmail.com</a>
+    <a href="tel:+8801731602972">+880 1731 602 972</a>
+    <a href="https://www.linkedin.com/in/md-naimool-islam-b7933b396" target="_blank">LinkedIn Profile</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
